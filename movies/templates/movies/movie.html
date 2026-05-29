@@ -1,0 +1,33 @@
+{% extends "movies/layout.html" %}
+
+{% block body %}
+    {% if movie %}
+        <div>
+            <h1>{{ movie.title }}</h1>
+        </div>
+        <img src="https://image.tmdb.org/t/p/w342/{{movie.poster_path}}">
+        <div>
+            <p>
+                {% for genre in movie.genres %}
+                    {{ genre.name }}
+                {% endfor %}
+            </p>
+            <p>
+                {% for country in movie.original_country %}
+                    country
+                {% endfor %}
+            </p>
+            <p>
+                Release Date: {{ movie.release_date }}
+            </p>
+            <p>
+                Overview: {{ movie.overview }}
+            </p>
+        </div>
+
+    {% else %}
+        <h1>No information available.</h1>
+
+    {% endif %}
+
+{% endblock %}

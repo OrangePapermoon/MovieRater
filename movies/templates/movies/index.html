@@ -1,0 +1,28 @@
+{% extends "movies/layout.html" %}
+
+{% block body %}
+    <h1>Welcome to MovieRater!</h1>
+    <div>
+        <!-- <form action="" method="post"></form> -->
+        <input name="title" placeholder="Search Movies Here" type="text" aufocus>
+        <button>Search</button>
+    </div>
+    <div>
+        <h1>Top Trending</h1>
+        <ul>
+            {% for movie in movies %}
+                <li>
+                    {% if movie.poster_path %}
+                        <img src="https://image.tmdb.org/t/p/w185/{{ movie.poster_path }}">
+                    {% else %}
+                        <p>No poster available</p>
+                    {% endif %}
+
+                    <p>
+                        <a href="{% url 'movie' movie.id %}">{{ movie.title }}</a>
+                    </p>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
