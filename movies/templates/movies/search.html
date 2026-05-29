@@ -1,0 +1,18 @@
+{% extends "movies/layout.html" %}
+
+{% block body %}
+    <h1>Matched Results</h1>
+    <ul>
+        {% for movie in movies %}
+            {% if movie.poster_path %}
+                <img src="https://image.tmdb.org/t/p/w185/{{ movie.poster_path }}">
+            {% else %}
+                No poster available
+            {% endif %}
+            <p>
+                <a href="{% url 'movie' movie.id %}">{{ movie.title }}</a>
+            </p>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

@@ -1,17 +1,20 @@
 from django.shortcuts import render
 
+import os
 import requests
+
+def get_tmdb_headers():
+    token = os.getenv("TMDB_API_KEY")
+    return {
+        "accept": "application/json",
+        "Authorization": f"Bearer {token}"
+    }
 
 # Create your views here.
 def index(request):
     url = "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1"
 
-    headers = {
-        "accept": "applicaton/json",
-        "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhMzVlYTIyYzZkZTZmMjhmZjQ5MmUxM2I4MWNjODU5NyIsIm5iZiI6MTc3OTk1MjY1Mi40NTEsInN1YiI6IjZhMTdlYzBjNGY5OGFmNmEwMjE1ZDc2YiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.3BclRhhnUzPRAV2sGUIg1IyFRw_3iu3qCFrz2Kt2T84"
-        }
-
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=get_tmdb_headers())
     data = response.json()
     movie_list = data.get("results", [])
 
@@ -22,14 +25,25 @@ def index(request):
 def movie(request, movie_id):
     url = f"https://api.themoviedb.org/3/movie/{movie_id}"
 
-    headers = {
-        "accept": "application/json",
-        "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhMzVlYTIyYzZkZTZmMjhmZjQ5MmUxM2I4MWNjODU5NyIsIm5iZiI6MTc3OTk1MjY1Mi40NTEsInN1YiI6IjZhMTdlYzBjNGY5OGFmNmEwMjE1ZDc2YiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.3BclRhhnUzPRAV2sGUIg1IyFRw_3iu3qCFrz2Kt2T84"
-    }
-
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=get_tmdb_headers())
     movie_info = response.json()
 
     return render(request, "movies/movie.html", {
         "movie": movie_info
+    })
+
+def search(request):
+    movie_list = []
+
+    if request.method == "POST":
+        title = request.POST.get("title")
+
+        url = f"https://api.themoviedb.org/3/search/movie?query={title}"
+
+        response = requests.get(url, headers=get_tmdb_headers())
+        data = response.json()   
+        movie_list = data.get("results", [])
+
+    return render(request, "movies/search.html", {
+        "movies": movie_list
     })

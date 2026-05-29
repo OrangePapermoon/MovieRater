@@ -3,9 +3,12 @@
 {% block body %}
     <h1>Welcome to MovieRater!</h1>
     <div>
-        <!-- <form action="" method="post"></form> -->
-        <input name="title" placeholder="Search Movies Here" type="text" aufocus>
-        <button>Search</button>
+        <form action="{% url 'search' %}" method="post">
+            {% csrf_token %}
+            
+            <input name="title" placeholder="Search Movies Here" type="text" autofocus>
+            <button type="submit">Search</button>
+        </form>
     </div>
     <div>
         <h1>Top Trending</h1>
