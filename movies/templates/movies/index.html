@@ -3,8 +3,7 @@
 {% block body %}
     <h1>Welcome to MovieRater!</h1>
     <div>
-        <form action="{% url 'search' %}" method="post">
-            {% csrf_token %}
+        <form action="{% url 'search' %}" method="get">
             
             <input name="title" placeholder="Search Movies Here" type="text" autofocus>
             <button type="submit">Search</button>

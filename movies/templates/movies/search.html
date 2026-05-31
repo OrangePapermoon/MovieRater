@@ -1,9 +1,16 @@
 {% extends "movies/layout.html" %}
 
+{% block head %}
+{% load static %}
+<script src="{% static 'movies/js/scroll.js' %}"></script>
+
+{% endblock %}
+
 {% block body %}
     <h1>Matched Results</h1>
     <ul>
         {% for movie in movies %}
+        <li>
             {% if movie.poster_path %}
                 <img src="https://image.tmdb.org/t/p/w185/{{ movie.poster_path }}">
             {% else %}
@@ -12,7 +19,12 @@
             <p>
                 <a href="{% url 'movie' movie.id %}">{{ movie.title }}</a>
             </p>
+        </li>
         {% endfor %}
     </ul>
-
+    <div>
+        <a href="{% url 'index' %}">
+            <button>Back to Home Page</button>
+        </a>
+    </div>
 {% endblock %}
