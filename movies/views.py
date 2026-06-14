@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 import os
 import requests
 import json
@@ -23,6 +24,7 @@ def index(request):
         "movies": movie_list
     })
 
+@login_required
 def movie(request, movie_id):
     url = f"https://api.themoviedb.org/3/movie/{movie_id}"
 
@@ -33,6 +35,7 @@ def movie(request, movie_id):
         "movie": movie_info
     })
 
+@login_required
 def search(request):
     movie_list = []
 
