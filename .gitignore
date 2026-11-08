@@ -1,1 +1,16 @@
+# Secrets
 .env
+
+# Virtual environment
+.venv/
+venv/
+
+# Local database
+db.sqlite3
+
+# Python cache
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
